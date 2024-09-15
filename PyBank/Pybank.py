@@ -14,58 +14,78 @@ with open(csvpath, mode="r", encoding="utf-8") as csvfile:
     csv_header = next(csvreader)
     print(f"CSV Header: {csv_header}")
     
+    # creates 3 empty tupples : "'Date', 'Profit/Losses', 'change'
 
-
-    ## calculate number Months + Total results
+    date_closing = ()
+    profit_losses = ()
+    change = ()
     
-    NbRow = 0
-    Total = 0
+    # fill the tuplles / change = evolution of the result between 2 periods (row)
     previous_result = 0
-    change = []
     
     for row in csvreader:
-        NbRow = NbRow +1
-        Total = Total + float(row[1])
+        newdate = row[0]
+        newresult = row[1]
+        evolution = float(newresult) - float(previous_result)
+        previous_result = newresult # reset the value of previous result to the current row
         
-        #change ; we calculate the change in the result between previous and current and store it in a list named CHANGE
-        change.append(float(row[1])-previous_result)
+        date_closing = date_closing + (newdate,)
+        profit_losses = profit_losses + (float(newresult),)
+        change = change + (float(evolution), )
         
-        #we also add a new index to row
-        row.append(float(row[1])-previous_result)
-        
-        # we reset the previous result as the current one
-        previous_result = float(row[1]) 
+    ###print ONLY if you need to controle  
+    #print(date_closing)
+    #print(profit_losses)
+    #print(change)
     
-    for row in csvreader :
-        print(row)
-     
-    #avg_change = avg_change/NbRow
-    change.pop(0)   #remove 1st value from the list equal to the first month without a change
-    average_change  = sum(change)/(NbRow-1)  #calculated without the 1st month
+    #total months
+    nbmonths = len(date_closing)
     
-    change.insert(0,0)   #insert a change value in 1st month equal to 0
+    # Total result
+    totalresult = sum(profit_losses)
+    formatedtotalresult = f"${totalresult:.0f}"
     
-                                    
-    ## greatest increase and decrease
-    great_increase_1 = max(change)
-    great_decrease_1 = min(change)
+    # Average change 
+    ## create new tupple excluding 1st change value / the first month, we dont calculate an average
+    newavg = change[1:]
+    avgchange = sum(newavg) / (nbmonths-1)
+    formatedavgchange = f"${avgchange:.2f}"
     
-    # find the month
-    month = "glouglou"
-    great_increase_test = 0
-    for row in csvreader:
-        if float(row[1]) > great_increase_test :
-            great_increase_test = float(row[1])
-            month = row[0] 
+    # Greatest Increase in Profits
+    increase = max(change)
+    formatedincrease = f"${increase:.0f}"
+    
+    ## find the month : find the index of the great evolution THEN use this index in tupple date_closing
+    monthincrease = date_closing[change.index(increase)]
+    
+    # Greatest Decrease in Profits
+    decrease = min(change)
+    formateddecrease = f"${decrease:.0f}"
+    
+    ## find the month : find the index of the great evolution THEN use this index in tupple date_closing
+    monthdecrease = date_closing[change.index(decrease)]
 
     
-
+    # Print all
     
-    # summary
-    print(f"Total Months : {NbRow}")
-    print(f"Total result : {Total}")
-    print(f"average change : {average_change}")
-    print(f"great_increase in profits  {great_increase_1}")
-    print(f"great_decrease in profits  {great_decrease_1}")
-    print(f"test  {great_increase_test}")   
-    print(month)
+    print("Financial Analysis")
+    print("--------------------------------------------------------------------")
+    print(f'Total months : {nbmonths}')
+    print(f'Total :  {formatedtotalresult}')
+    print(f'Average change  : {formatedavgchange}')
+    print(f'Greatest Increase in Profits : {monthincrease} ({formatedincrease})')
+    print(f'Greatest Decrease in Profits : {monthdecrease} ({formateddecrease})')    
+    
+    # EXPORT
+
+    export_path = "F:/github/python-challenge/Pybank/BankOutput.txt"
+    
+    with open(export_path, "w") as export :
+        
+        print("Financial Analysis", file = export)
+        print("--------------------------------------------------------------------", file = export)
+        print(f'Total months : {nbmonths}', file = export)
+        print(f'Total :  {formatedtotalresult}', file = export)
+        print(f'Average change  : {formatedavgchange}', file = export)
+        print(f'Greatest Increase in Profits : {monthincrease} ({formatedincrease})', file = export)
+        print(f'Greatest Decrease in Profits : {monthdecrease} ({formateddecrease})', file = export)    
