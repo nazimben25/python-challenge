@@ -1,2 +1,56 @@
 # python-challenge
 Output for challenge module 3( Python start) - UoT
+
+1)  repository content 
+in the repository there are 
+in folder resources : 02 csv files with the data  
+
+- 02 folders for each analysis : PyBank, PyPoll
+    in each folder there is
+    - the .py file
+    - the .txt file filled by the code
+
+2) code structure
+
+2.1) commun structure for both codes
+
+    2.1.1) Open and read the csv
+    - use of with  and open functions
+    - source files are in folder F:/github/python-challenge/Resources/
+    - use of method UTF-8
+    - delimiter ","
+    - same file name : csvreader
+
+    2.1.2) extract the header
+    use of "next" function to extract 1st row and use it as header
+
+    2.1.3) Export to .txt
+    - use of WITH and OPEN functions
+    - duplicate the printed values for the terminal + txt file creation / modification
+    - the txt files are located in each folder respectively
+
+
+    2.1.4) creation of lists and tupples
+    the data is stocked in lists and topples, s we can analyse it easily 
+    - tupple for PyBank : the data is limited and we needed to keep it unchanged 
+    - list for PyPoll : the data is larger (tupple was ineffiscient) and we dont mind if it changes : we needed to sort it once
+
+
+2.2) structure for PyBank.py
+- creation of 3 tupples 'Date', 'Profit/Losses', 'change' filled  with forloop
+    - calculate the change by difference between the result of the periode and the result and previous period
+- calculation of the requested values using max, min, sum functions on the tupples
+- retrieve the months of max and min change by their position in the tupples
+
+
+
+2.3) structure for PyPoll.py
+- creation of 3 lists, filled with 'BallotID', 'County', 'Candidate' with forloop
+    - calculation of voters number 
+
+    - creation of 3 sets to get the distinct values of candidates with their score
+    - sorting the data to allow the calculation of score
+    - for each candidate, the score is calculated by looping before the change of the candidate value (hense the sorting)
+    - the % is calculated by dividing by the total voters
+
+- find the winner : higher value of synthesis list
