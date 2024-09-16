@@ -1,3 +1,5 @@
+# import moodles
+
 import os
 import csv
 
@@ -14,13 +16,13 @@ with open(csvpath, mode="r", encoding="utf-8") as csvfile:
     csv_header = next(csvreader)
     print(f"CSV Header: {csv_header}")
     
-    # creates 3 empty tupples : "'Date', 'Profit/Losses', 'change'
+    # creates 3 empty tupples : "'Date', 'Profit/Losses', 'change' / these tupples will be used to process the data
 
     date_closing = ()
     profit_losses = ()
     change = ()
     
-    # fill the tuplles / change = evolution of the result between 2 periods (row)
+    ## fill the tuplles / for CHANGE = evolution of the result between 2 periods (2 rows)
     previous_result = 0
     
     for row in csvreader:
@@ -33,40 +35,49 @@ with open(csvpath, mode="r", encoding="utf-8") as csvfile:
         profit_losses = profit_losses + (float(newresult),)
         change = change + (float(evolution), )
         
-    ###print ONLY if you need to controle  
+###print ONLY if you need to control or track  
     #print(date_closing)
     #print(profit_losses)
     #print(change)
     
-    #total months
+    # calculate TOTAL MONTHS
+    
     nbmonths = len(date_closing)
     
-    # Total result
+    # calculate TOTAL RESULT
+    
     totalresult = sum(profit_losses)
-    formatedtotalresult = f"${totalresult:.0f}"
+    formatedtotalresult = f"${totalresult:.0f}" ## to format the number 
     
-    # Average change 
-    ## create new tupple excluding 1st change value / the first month, we dont calculate an average
+    # calculate Average change 
+    
+    ## create new tupple excluding 1st change value / because the first month, we don't calculate a variation
+    
     newavg = change[1:]
-    avgchange = sum(newavg) / (nbmonths-1)
-    formatedavgchange = f"${avgchange:.2f}"
     
-    # Greatest Increase in Profits
+    avgchange = sum(newavg) / (nbmonths-1) ## calculate the average on the tupple
+    formatedavgchange = f"${avgchange:.2f}" ## to format the number 
+    
+    # Greatest Increase in Profits on CHANGE
+    
     increase = max(change)
-    formatedincrease = f"${increase:.0f}"
+    formatedincrease = f"${increase:.0f}" ## to format the number 
     
-    ## find the month : find the index of the great evolution THEN use this index in tupple date_closing
+    ## find the month : find the index of the greatest evolution in tupple CHANGE THEN use this index in tupple date_closing
+    
     monthincrease = date_closing[change.index(increase)]
     
-    # Greatest Decrease in Profits
+    # Greatest Decrease in Profits on CHANGE
     decrease = min(change)
-    formateddecrease = f"${decrease:.0f}"
+    formateddecrease = f"${decrease:.0f}" ## to format the number 
     
-    ## find the month : find the index of the great evolution THEN use this index in tupple date_closing
+    ## find the month : find the index of the greatest evolution in tupple CHANGE THEN use this index in tupple date_closing
     monthdecrease = date_closing[change.index(decrease)]
 
     
     # Print all
+    
+    ## for terminal purpose
     
     print("Financial Analysis")
     print("--------------------------------------------------------------------")
@@ -76,7 +87,7 @@ with open(csvpath, mode="r", encoding="utf-8") as csvfile:
     print(f'Greatest Increase in Profits : {monthincrease} ({formatedincrease})')
     print(f'Greatest Decrease in Profits : {monthdecrease} ({formateddecrease})')    
     
-    # EXPORT
+    ## to be exported to .txt file
 
     export_path = "F:/github/python-challenge/Pybank/BankOutput.txt"
     
