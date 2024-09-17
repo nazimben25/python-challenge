@@ -7,9 +7,10 @@ in the repository there are
 - 02 csv files with the data 
 
 - 02 folders for each analysis : PyBank, PyPoll
-    in each folder there is
-    - the .py file
-    - the .txt file filled by the code
+    in each folder there is the .py file
+
+- 01 folder "analysis that contains 2 txt files with the output of the codes
+    - the .txt files filled by the code
 
 2) code structure
 
@@ -20,7 +21,7 @@ in the repository there are
     - use of method "UTF-8" to read the files
     - delimiter ","
     - Assign same file name : csvreader
-    - source files are in folder F:/github/python-challenge/Resources/
+    - source files are in the same folder F:/github/python-challenge/Resources/ represnted as ../resources/file.csv
 
     2.1.2) extract the header
     use of "NEXT" function to extract 1st row and use it as header
@@ -35,7 +36,7 @@ in the repository there are
     - tupple for PyBank : the data is limited and we needed to keep it unchanged 
     - list for PyPoll : the data is larger (tupple was ineffiscient) and we dont mind if it changes : we needed to sort it once
 
-    2.1.5) we import and use modules : OS and CSV
+    2.1.5) I imported and used 2 modules : OS and CSV
 
 
 2.2) structure for PyBank.py

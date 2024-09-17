@@ -1,10 +1,8 @@
-# import modules
-
 import os
 import csv
 
 # Specify the file path to the CSV
-path = "../Resources/election_data.csv"
+path = "F:/github/python-challenge/Resources/election_data.csv"
 csvpath = os.path.join(path)
 
 # Open and read the CSV file using UTF-8 encoding
@@ -16,13 +14,13 @@ with open(csvpath, mode="r", encoding="utf-8") as csvfile:
     print(f"CSV Header: {csv_header}")
     
 
-   # creates 3 empty lists : 'BallotID', 'County', 'Candidate' / this will allow analysis on CANDIDATE list
+   # creates 3 empty tupples : "'BallotID', 'County', 'Candidate'
 
     ballotID = []
     county = []
     candidatelist = []
     
-    # fill the lists by assigning each index to a list
+    # fill the tupples
       
     for row in csvreader:
         newID = row[0]
@@ -34,82 +32,68 @@ with open(csvpath, mode="r", encoding="utf-8") as csvfile:
         candidatelist.append(newcandidate)
         
     
-    # calculate TOTAL VOTES = number of entries of any list
+    #total votes
     totalvotes = len(ballotID)
     
    
-    # calculate results
-
-    ## create new lists candidatedistinct + candidates voters + % to stores the loop result
+    #calculate results
+    ##create new list candidatedistinct + candidates voters to stores the loop result
         
     candidatesdinctinctlist = []    
     candidatesvoterslist = []
     candidatespercentlist = []
         
-    ## sort list candidates / the list need to be sorted so we can use the change in value to identify distinct values
-    
+    #sort list candidates
     candidatelist.sort()
 
-    ## create variables to loop
-    
+    #create variables to loop
     candidatename = ""
     voters = 0
-    
-    ## fill the list with distinct values of candidates and their score + %
-    
     for value in candidatelist :
-        ### if it is the first row then we create 1st candidate, we store it in our list, we update voter number
+        # if it is the first row then we create 1st candidate, we store it in our list, we update voter number
         if candidatename == "" :  
             candidatename = value
             candidatesdinctinctlist.append(candidatename)
             voters = voters + 1
         
-        ### for all other rows
         else : 
             if value != candidatename : 
-                #### if it is NOt the first row , AND if the name is different (means new candidate) then we create 1st candidate we store it in our list, we update voter number + store the voters in list
+                # if it is NOt the first row , AND if the name is different (means new candidate) then we create 1st candidate we store it in our list, we update voter number + store the voters in list
                 candidatename = value
-                candidatesdinctinctlist.append(candidatename)  ###### update list of candidates with distinct values
+                candidatesdinctinctlist.append(candidatename)  # update list of candidates
                 
-                voters = voters  ##### calculate the score
+                voters = voters
                 percent = (voters / totalvotes)
-                candidatesvoterslist.append(voters) ###### update list of voters count
-                candidatespercentlist.append(percent) ###### update list of voters %
-                voters = 1 ###### we reset the voters number to be used for the next candidate
-            
-            ### we just need to update the voter number +1
+                candidatesvoterslist.append(voters) # update list of voters count
+                candidatespercentlist.append(percent) # update list of voters %
+                voters = 1 # we reset the voters number
+            # we just need to update the voter number +1
             else : 
                 voters = voters +1
-    
-    ### the last candidate (last in sorted data) will get it score that still stored in th variables we created
-    
+
     if candidatename :
          candidatesdinctinctlist.append(candidatename)
          candidatesvoterslist.append(voters)
          candidatespercentlist.append(voters/totalvotes)
     
-    # find the winner : the greates score in synthesis list
-    
+    # find the winner
     votersmax = max(candidatesvoterslist)
     winner = candidatesdinctinctlist[candidatesvoterslist.index(votersmax)]
     
-### these lines can be printed for control/ tracking purpose ONLY
+    ### these can be printed for controle purpose ONLY
     #print(candidatesdinctinctlist)
     #print(candidatesvoterslist)
     #print(candidatespercentlist)
         
     
     # print all  
-    
-    ## to show in the terminal
-    
     print("                ")
     print("Election Results")
     print("-------------------------")
     print(f"Total votes : {totalvotes}")
     print("-------------------------")
 
-    #extract the resut for each candidate from the lists the values in the same index
+    #extract from the lists the values in the same index
     for i in range(len(candidatesdinctinctlist)-1) :
         c = candidatesdinctinctlist[i]
         r = candidatesvoterslist[i]
@@ -124,9 +108,9 @@ with open(csvpath, mode="r", encoding="utf-8") as csvfile:
     
     
     
-    ## EXPORT to .txt File
+    # EXPORT
 
-    export_path = "../analysis/PollOutput.txt"
+    export_path = "F:/github/python-challenge/Pypoll/PollOutput.txt"
     
     with open(export_path, "w") as export :
         
@@ -136,7 +120,7 @@ with open(csvpath, mode="r", encoding="utf-8") as csvfile:
         print(f"Total votes : {totalvotes}", file = export)
         print("-------------------------", file = export)
 
-        #extract the resut for each candidate from the lists the values in the same index
+        #extract from the lists the values in the same index
         for i in range(len(candidatesdinctinctlist)-1) :
             c = candidatesdinctinctlist[i]
             r = candidatesvoterslist[i]
