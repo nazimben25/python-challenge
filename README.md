@@ -21,7 +21,7 @@ in the repository there are
     - use of method "UTF-8" to read the files
     - delimiter ","
     - Assign same file name : csvreader
-    - source files are in the same folder F:/github/python-challenge/Resources/ represnted as ../resources/file.csv
+    - source files are in the same folder ../resources/file.csv
 
     2.1.2) extract the header
     use of "NEXT" function to extract 1st row and use it as header
