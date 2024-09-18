@@ -6,7 +6,7 @@ import csv
 # Specify the file path to the CSV 
 path = "../Resources/budget_data.csv"
 
-csvpath = os.path.join(path)
+csvpath = os.path.join("..","Resources","budget_data.csv")
 
 # Open and read the CSV file using UTF-8 encoding
 with open(csvpath, mode="r", encoding="utf-8") as csvfile:
